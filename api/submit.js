@@ -1,98 +1,68 @@
 export default async function handler(req, res) {
   try {
-    if (req.method !== "POST") return res.status(405).json({ ok:false, error:"method_not_allowed" });
-
-    const data = req.body || {};
-    if (!data.termsAccepted) return res.status(400).json({ ok:false, error:"terms_required" });
-    if (!data.signature) return res.status(400).json({ ok:false, error:"signature_required" });
-
-    // 1) Build email text
-    const lines = [
-      `New Job Application (Allston Car Wash)`,
-      `Submitted: ${data.submittedAt}`,
-      ``,
-      `Name: ${data.name}`,
-      `Email: ${data.email}`,
-      `Phone: ${data.phone}`,
-      `Position: ${data.position}`,
-      ``,
-      `Address: ${data.street}, ${data.city}, ${data.state} ${data.zip}`,
-      `Eligible to work: ${data.eligible}`,
-      `Start date: ${data.startDate}`,
-      `Under 18 work permit: ${data.under18 || "N/A"}`,
-      `Employment type: ${data.employmentType}`,
-      `Hours/week: ${data.hoursPerWeek}`,
-      `Overtime: ${data.overtime}`,
-      `Days available: ${(data.daysAvailable||[]).join(", ")}`,
-      ``,
-      `Driving stick shift: ${data.stick || "N/A"}`,
-      `Driver's license: ${data.license || "N/A"}`,
-      ``,
-      `Employment history:`,
-      `Company: ${data.company || ""}`,
-      `Job title: ${data.jobTitle || ""}`,
-      `Company phone: ${data.companyPhone || ""}`,
-      `Contact for reference: ${data.contactRef || ""}`,
-      ``,
-      `Notes: ${data.notes || ""}`,
-    ];
-    const emailText = lines.join("\n");
-
-    // 2) Send Email (RESEND example)
-    // Create account on Resend and get RESEND_API_KEY
-    const toEmails = (process.env.TO_EMAILS || "").split(",").map(s=>s.trim()).filter(Boolean);
-    if (!toEmails.length) throw new Error("missing_TO_EMAILS");
-
-    const resendResp = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.RESEND_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        from: process.env.FROM_EMAIL, // e.g. "ACW Forms <forms@yourdomain.com>"
-        to: toEmails,
-        subject: `New Job Application: ${data.name} (${data.position})`,
-        text: emailText
-        // If you want signature image as attachment later, we can add it.
-      })
-    });
-
-    if (!resendResp.ok) {
-      const t = await resendResp.text();
-      throw new Error("email_failed: " + t);
+    if (req.method !== "POST") {
+      return res.status(405).json({ ok: false, error: "method_not_allowed" });
     }
 
-    // 3) Send SMS to two phones (TWILIO example)
-    // Put phones in env as TO_PHONES="+1xxx,+1yyy"
-    const toPhones = (process.env.TO_PHONES || "").split(",").map(s=>s.trim()).filter(Boolean);
+    const data = req.body || {};
 
-    if (toPhones.length) {
-      const smsBody = `New ACW Job App: ${data.name} • ${data.position} • ${data.phone}`;
+    // Basic checks
+    if (!data.termsAccepted) {
+      return res.status(400).json({ ok: false, error: "terms_required" });
+    }
+    if (!data.signature) {
+      return res.status(400).json({ ok: false, error: "signature_required" });
+    }
 
-      for (const to of toPhones) {
-        const twilioUrl = `https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`;
-        const form = new URLSearchParams();
-        form.append("To", to);
-        form.append("From", process.env.TWILIO_FROM_NUMBER);
-        form.append("Body", smsBody);
+    // Env vars
+    const key = process.env.TEXTMEBOT_KEY; // your API key
+    const phones = (process.env.TEXTMEBOT_PHONES || "")
+      .split(",")
+      .map(s => s.trim())
+      .filter(Boolean);
 
-        const auth = Buffer.from(`${process.env.TWILIO_ACCOUNT_SID}:${process.env.TWILIO_AUTH_TOKEN}`).toString("base64");
-        const twilioResp = await fetch(twilioUrl, {
-          method: "POST",
-          headers: { "Authorization": `Basic ${auth}`, "Content-Type":"application/x-www-form-urlencoded" },
-          body: form.toString()
-        });
+    if (!key) {
+      return res.status(500).json({ ok: false, error: "missing_TEXTMEBOT_KEY" });
+    }
+    if (!phones.length) {
+      return res.status(500).json({ ok: false, error: "missing_TEXTMEBOT_PHONES" });
+    }
 
-        if (!twilioResp.ok) {
-          const t = await twilioResp.text();
-          throw new Error("sms_failed: " + t);
-        }
+    // Message (short + useful)
+    const days = Array.isArray(data.daysAvailable) ? data.daysAvailable.join(", ") : "";
+    const msg =
+`🧾 New ACW Job Application
+Name: ${data.name || ""}
+Position: ${data.position || ""}
+Phone: ${data.phone || ""}
+Email: ${data.email || ""}
+Start Date: ${data.startDate || ""}
+Eligible: ${data.eligible || ""}
+Days: ${days}`;
+
+    // Send to each phone via TextMeBot
+    for (const phone of phones) {
+      const url =
+        `https://api.textmebot.com/send.php` +
+        `?recipient=${encodeURIComponent(phone)}` +
+        `&apikey=${encodeURIComponent(key)}` +
+        `&text=${encodeURIComponent(msg)}`;
+
+      const r = await fetch(url);
+      const t = await r.text();
+
+      // TextMeBot sometimes returns 200 with error text; we handle both
+      if (!r.ok) {
+        throw new Error(`textmebot_http_${r.status}: ${t}`);
+      }
+      if (String(t).toLowerCase().includes("error")) {
+        throw new Error(`textmebot_error: ${t}`);
       }
     }
 
-    return res.status(200).json({ ok:true });
+    return res.status(200).json({ ok: true });
+
   } catch (e) {
-    return res.status(500).json({ ok:false, error: String(e.message || e) });
+    return res.status(500).json({ ok: false, error: String(e.message || e) });
   }
 }
