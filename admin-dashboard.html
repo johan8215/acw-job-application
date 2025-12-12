@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ACW Admin</title>
+  <style>
+    body{ font-family:system-ui, Arial; padding:20px; }
+    .top{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+    button{ padding:10px 12px; border-radius:10px; border:1px solid #ddd; background:white; cursor:pointer; }
+    .card{ margin-top:16px; padding:14px; border:1px solid #eee; border-radius:14px; }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <h2>ACW Admin Dashboard</h2>
+    <button id="logout">Logout</button>
+  </div>
+
+  <div class="card" id="status">Checking session…</div>
+
+<script>
+  async function check(){
+    const r = await fetch("/api/me", { credentials:"include" });
+    const j = await r.json();
+    if (!j.ok){
+      location.href="/admin.html";
+      return;
+    }
+    document.getElementById("status").textContent =
+      "✅ Logged in as: " + (j.user || "admin");
+  }
+  check();
+
+  document.getElementById("logout").addEventListener("click", async ()=>{
+    await fetch("/api/logout", { method:"POST", credentials:"include" });
+    location.href="/admin.html";
+  });
+</script>
+</body>
+</html>
