@@ -6,41 +6,26 @@ export default async function handler(req, res) {
 
     const data = req.body || {};
 
-    // Basic checks
-    if (!data.termsAccepted) {
-      return res.status(400).json({ ok: false, error: "terms_required" });
-    }
-    if (!data.signature) {
-      return res.status(400).json({ ok: false, error: "signature_required" });
-    }
+    // Required
+    if (!data.termsAccepted) return res.status(400).json({ ok:false, error:"terms_required" });
+    if (!data.signature)     return res.status(400).json({ ok:false, error:"signature_required" });
 
-    // Env vars
-    const key = process.env.TEXTMEBOT_KEY; // your API key
+    const key = process.env.TEXTMEBOT_KEY;
     const phones = (process.env.TEXTMEBOT_PHONES || "")
-      .split(",")
-      .map(s => s.trim())
-      .filter(Boolean);
+      .split(",").map(s => s.trim()).filter(Boolean);
 
-    if (!key) {
-      return res.status(500).json({ ok: false, error: "missing_TEXTMEBOT_KEY" });
-    }
-    if (!phones.length) {
-      return res.status(500).json({ ok: false, error: "missing_TEXTMEBOT_PHONES" });
-    }
+    if (!key) return res.status(500).json({ ok:false, error:"missing_TEXTMEBOT_KEY" });
+    if (!phones.length) return res.status(500).json({ ok:false, error:"missing_TEXTMEBOT_PHONES" });
 
-    // Message (short + useful)
-    const days = Array.isArray(data.daysAvailable) ? data.daysAvailable.join(", ") : "";
     const msg =
 `🧾 New ACW Job Application
 Name: ${data.name || ""}
 Position: ${data.position || ""}
 Phone: ${data.phone || ""}
 Email: ${data.email || ""}
-Start Date: ${data.startDate || ""}
-Eligible: ${data.eligible || ""}
-Days: ${days}`;
+Start: ${data.startDate || ""}`;
 
-    // Send to each phone via TextMeBot
+    // IMPORTANT: use SAME base URL that worked in your Safari test
     for (const phone of phones) {
       const url =
         `https://api.textmebot.com/send.php` +
@@ -51,13 +36,8 @@ Days: ${days}`;
       const r = await fetch(url);
       const t = await r.text();
 
-      // TextMeBot sometimes returns 200 with error text; we handle both
-      if (!r.ok) {
-        throw new Error(`textmebot_http_${r.status}: ${t}`);
-      }
-      if (String(t).toLowerCase().includes("error")) {
-        throw new Error(`textmebot_error: ${t}`);
-      }
+      if (!r.ok) throw new Error(`textmebot_http_${r.status}: ${t}`);
+      if (String(t).toLowerCase().includes("error")) throw new Error(`textmebot_error: ${t}`);
     }
 
     return res.status(200).json({ ok: true });
