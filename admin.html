@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ACW Admin Login</title>
+  <style>
+    :root { color-scheme: light; }
+    body{
+      margin:0; min-height:100vh; display:grid; place-items:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: radial-gradient(1200px 800px at 10% 10%, #e8f0ff 0%, #ffffff 55%, #f6f7fb 100%);
+      color:#0f172a;
+    }
+    .card{
+      width:min(420px, 92vw);
+      background: rgba(255,255,255,.9);
+      border:1px solid rgba(15,23,42,.08);
+      border-radius:18px;
+      box-shadow: 0 10px 30px rgba(2,6,23,.08);
+      padding:22px;
+      backdrop-filter: blur(8px);
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; margin-bottom:14px;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      display:grid; place-items:center; color:white; font-weight:800;
+    }
+    h1{ font-size:18px; margin:0; }
+    p{ margin:6px 0 0; color:#475569; font-size:13px; }
+    label{ font-size:12px; color:#334155; display:block; margin:14px 0 6px; }
+    input{
+      width:100%;
+      border:1px solid rgba(15,23,42,.12);
+      border-radius:12px;
+      padding:12px 12px;
+      font-size:14px;
+      outline:none;
+      background:white;
+    }
+    input:focus{ border-color:#2563eb; box-shadow: 0 0 0 4px rgba(37,99,235,.15); }
+    button{
+      width:100%;
+      margin-top:14px;
+      border:none;
+      border-radius:12px;
+      padding:12px 12px;
+      font-size:14px;
+      font-weight:700;
+      color:white;
+      background: linear-gradient(135deg, #2563eb, #06b6d4);
+      cursor:pointer;
+    }
+    button:disabled{ opacity:.6; cursor:not-allowed; }
+    .msg{ margin-top:12px; font-size:13px; color:#b91c1c; min-height:18px;}
+    .ok{ color:#0f766e; }
+    .small{ margin-top:10px; font-size:12px; color:#64748b; text-align:center; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <div class="logo">ACW</div>
+      <div>
+        <h1>Admin Login</h1>
+        <p>Secure access for ACW Job Application</p>
+      </div>
+    </div>
+
+    <form id="loginForm">
+      <label for="user">Username</label>
+      <input id="user" autocomplete="username" required />
+
+      <label for="pass">Password</label>
+      <input id="pass" type="password" autocomplete="current-password" required />
+
+      <button id="btn" type="submit">Sign in</button>
+      <div id="msg" class="msg"></div>
+    </form>
+
+    <div class="small">Tip: if you forget it, change <b>ADMIN_USER</b> / <b>ADMIN_PASS</b> in Vercel.</div>
+  </div>
+
+<script>
+  async function alreadyLogged(){
+    try{
+      const r = await fetch("/api/me", { credentials:"include" });
+      const j = await r.json();
+      if (j.ok) location.href = "/admin-dashboard.html";
+    }catch(e){}
+  }
+  alreadyLogged();
+
+  const form = document.getElementById("loginForm");
+  const msg  = document.getElementById("msg");
+  const btn  = document.getElementById("btn");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    msg.textContent = "";
+    btn.disabled = true;
+
+    const user = document.getElementById("user").value.trim();
+    const pass = document.getElementById("pass").value;
+
+    try{
+      const r = await fetch("/api/login", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        credentials:"include",
+        body: JSON.stringify({ user, pass })
+      });
+      const j = await r.json();
+      if (!r.ok || !j.ok){
+        msg.textContent = j.error || "Login failed.";
+        btn.disabled = false;
+        return;
+      }
+      msg.textContent = "✅ Logged in. Redirecting...";
+      msg.classList.add("ok");
+      setTimeout(()=> location.href="/admin-dashboard.html", 400);
+    }catch(err){
+      msg.textContent = "Network error. Try again.";
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
