@@ -2,672 +2,326 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ACW Job Application | Solicitud de Empleo</title>
+  <title>Allston Car Wash – Job Application</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    :root{
-      --bg:#f5f7fb;
-      --card:#fff;
-      --text:#1f2d3d;
-      --muted:#6b7280;
-      --line:#e5e7eb;
-      --primary:#0b63f6;
-      --danger:#dc2626;
-      --ok:#16a34a;
-      --soft:#f8fafc;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-    .wrap{
-      max-width:980px;
-      margin:34px auto;
-      padding:0 16px;
-    }
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:14px;
-      box-shadow:0 12px 30px rgba(0,0,0,.07);
-      padding:22px;
-    }
-    h1{ margin:0 0 6px; font-size:24px; text-align:center; }
-    .sub{
-      text-align:center;
-      color:var(--muted);
-      margin:0 0 18px;
-      font-size:13px;
-      line-height:1.35;
+    :root {
+      --primary: #2563eb;
+      --secondary: #0f172a;
+      --soft: #f1f5f9;
+      --border: #e5e7eb;
+      --danger: #dc2626;
+      --success: #16a34a;
     }
 
-    fieldset{ border:0; padding:0; margin:18px 0 0; }
-    legend{
-      font-weight:700;
-      margin:0 0 10px;
-      font-size:16px;
-    }
-    .lang{ color:var(--muted); font-weight:500; font-size:12px; }
+    * { box-sizing: border-box; }
 
-    label{
-      display:block;
-      font-weight:600;
-      margin:12px 0 6px;
-      font-size:13px;
+    body {
+      margin: 0;
+      background: #f8fafc;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #0f172a;
     }
-    input, select, textarea{
-      width:100%;
-      border:1px solid var(--line);
-      border-radius:10px;
-      padding:10px 12px;
-      font-size:14px;
-      background:#fff;
-    }
-    textarea{ min-height:92px; resize:vertical; }
 
-    .grid{
-      display:grid;
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      padding: 32px;
+      border-radius: 14px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #475569;
+      margin-bottom: 30px;
+    }
+
+    h2 {
+      margin-top: 40px;
+      border-bottom: 2px solid var(--soft);
+      padding-bottom: 8px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-top: 14px;
+    }
+
+    .hint {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 15px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .grid {
+      display: grid;
       grid-template-columns: 1fr 1fr;
-      gap:14px;
-    }
-    @media (max-width:720px){
-      .grid{ grid-template-columns:1fr; }
+      gap: 18px;
     }
 
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:8px;
-    }
-    .chip{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:var(--soft);
-      font-size:13px;
-      user-select:none;
-    }
-    .chip input{ width:auto; }
-
-    .note{
-      margin-top:10px;
-      padding:12px;
-      border:1px dashed var(--line);
-      border-radius:12px;
-      background:#fbfbff;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.4;
+    @media (max-width: 720px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
 
-    .termsBox{
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:var(--soft);
-      padding:12px;
-      max-height:260px;
-      overflow:auto;
-      font-size:12.5px;
-      line-height:1.5;
-    }
-    .mustread{
-      display:inline-block;
-      margin:0 0 10px;
-      padding:6px 10px;
-      border-radius:999px;
-      background:#fff3cd;
-      border:1px solid #ffe69c;
-      color:#7a5b00;
-      font-weight:700;
-      font-size:12px;
+    .days {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
     }
 
-    .row2{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top:10px;
-    }
-    .row2 .check{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      padding:10px 12px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:#fff;
-      flex:1;
-      min-width:240px;
-    }
-    .row2 input[type="checkbox"]{ margin-top:2px; }
-
-    .sigWrap{
-      margin-top:12px;
-      border:1px solid var(--line);
-      border-radius:12px;
-      background:#fff;
-      overflow:hidden;
-    }
-    .sigTop{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:10px 12px;
-      border-bottom:1px solid var(--line);
-      background:var(--soft);
-      font-size:12px;
-      color:var(--muted);
-    }
-    canvas{
-      width:100%;
-      height:170px;
-      display:block;
-      touch-action:none;
-      background:#fff;
-    }
-    .sigActions{
-      display:flex;
-      gap:10px;
-      padding:10px 12px;
-      border-top:1px solid var(--line);
-      background:var(--soft);
-      justify-content:flex-end;
-    }
-    .btn{
-      border:0;
-      border-radius:10px;
-      padding:10px 12px;
-      font-weight:700;
-      cursor:pointer;
-      font-size:14px;
-    }
-    .btnPrimary{ background:var(--primary); color:#fff; width:100%; padding:14px; font-size:16px; }
-    .btnGhost{ background:#fff; border:1px solid var(--line); color:var(--text); }
-    .btnDanger{ background:#fee2e2; border:1px solid #fecaca; color:#991b1b; }
-
-    .error{
-      margin-top:12px;
-      display:none;
-      padding:12px;
-      border:1px solid #fecaca;
-      background:#fff1f2;
-      color:#9f1239;
-      border-radius:12px;
-      font-size:13px;
-    }
-    .ok{
-      margin-top:12px;
-      display:none;
-      padding:12px;
-      border:1px solid #bbf7d0;
-      background:#f0fdf4;
-      color:#166534;
-      border-radius:12px;
-      font-size:13px;
+    .day {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
     }
 
-    .footer{
-      text-align:center;
-      margin-top:14px;
-      color:var(--muted);
-      font-size:12px;
+    .terms-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      max-height: 260px;
+      overflow-y: auto;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .must-read {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .agree-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-top: 16px;
+    }
+
+    .agree-row input {
+      width: auto;
+      margin-top: 4px;
+    }
+
+    .signature-box {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      margin-top: 16px;
+      height: 160px;
+      position: relative;
+      background: white;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+    }
+
+    .sig-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .actions {
+      margin-top: 30px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 14px 28px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .submit {
+      background: var(--primary);
+      color: white;
+    }
+
+    .clear {
+      background: #fee2e2;
+      color: var(--danger);
     }
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <div class="card">
-      <h1>Allston Car Wash – Job Application</h1>
-      <p class="sub">
-        Please complete all required fields and sign before submitting.<br>
-        <span class="lang">Por favor completa todos los campos requeridos y firma antes de enviar.</span>
-      </p>
 
-      <form id="jobForm">
+<div class="container">
 
-        <!-- Applicant Info -->
-        <fieldset>
-          <legend>Applicant Information <span class="lang">/ Información del Aplicante</span></legend>
+  <h1>Allston Car Wash – Job Application</h1>
+  <p class="subtitle">
+    Please complete all required fields and sign before submitting.<br>
+    Por favor complete todos los campos requeridos y firme antes de enviar.
+  </p>
 
-          <div class="grid">
-            <div>
-              <label>Full Name * <span class="lang">/ Nombre completo</span></label>
-              <input name="name" required>
-            </div>
-            <div>
-              <label>Email * <span class="lang">/ Correo</span></label>
-              <input type="email" name="email" required>
-            </div>
-          </div>
+  <!-- APPLICANT INFO -->
+  <h2>Applicant Information / Información del Aplicante</h2>
 
-          <div class="grid">
-            <div>
-              <label>Phone * <span class="lang">/ Teléfono</span></label>
-              <input name="phone" required placeholder="e.g. 7813467719">
-            </div>
-            <div>
-              <label>Position Applying For * <span class="lang">/ Posición</span></label>
-              <input name="position" required placeholder="e.g. Cashier">
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Address -->
-        <fieldset>
-          <legend>Address <span class="lang">/ Dirección</span></legend>
-
-          <div class="grid">
-            <div>
-              <label>Street Address <span class="lang">/ Calle</span></label>
-              <input name="street">
-            </div>
-            <div>
-              <label>City <span class="lang">/ Ciudad</span></label>
-              <input name="city">
-            </div>
-          </div>
-
-          <div class="grid">
-            <div>
-              <label>State <span class="lang">/ Estado</span></label>
-              <input name="state">
-            </div>
-            <div>
-              <label>Zip Code <span class="lang">/ Código Postal</span></label>
-              <input name="zip">
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Work Eligibility & Availability -->
-        <fieldset>
-          <legend>Work Eligibility & Availability <span class="lang">/ Elegibilidad y Disponibilidad</span></legend>
-
-          <div class="grid">
-            <div>
-              <label>Legally eligible to work in the U.S.? * <span class="lang">/ ¿Puede trabajar legalmente en EE.UU.?</span></label>
-              <select name="eligible" required>
-                <option value="">Select / Selecciona</option>
-                <option value="Yes">Yes / Sí</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-            <div>
-              <label>Available Start Date * <span class="lang">/ Fecha disponible para iniciar</span></label>
-              <input type="date" name="startDate" required>
-            </div>
-          </div>
-
-          <div class="grid">
-            <div>
-              <label>Type of employment desired * <span class="lang">/ Tipo de empleo</span></label>
-              <select name="employmentType" required>
-                <option value="">Select / Selecciona</option>
-                <option value="Full time">Full time / Tiempo completo</option>
-                <option value="Part time">Part time / Medio tiempo</option>
-                <option value="Temporary">Temporary / Temporal</option>
-              </select>
-            </div>
-            <div>
-              <label>Hours per week you are willing to work * <span class="lang">/ Horas por semana</span></label>
-              <input name="hoursPerWeek" required placeholder="e.g. 40+">
-            </div>
-          </div>
-
-          <div class="grid">
-            <div>
-              <label>Will you work overtime if required? * <span class="lang">/ ¿Haría horas extra si se requiere?</span></label>
-              <select name="overtime" required>
-                <option value="">Select / Selecciona</option>
-                <option value="Yes">Yes / Sí</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-            <div>
-              <label>If under 18 (if required), can you provide a work permit? <span class="lang">/ Si es menor de 18, ¿puede proveer permiso?</span></label>
-              <select name="workPermit">
-                <option value="">Select / Selecciona</option>
-                <option value="Yes">Yes / Sí</option>
-                <option value="No">No</option>
-                <option value="N/A">N/A</option>
-              </select>
-            </div>
-          </div>
-
-          <label>Days available to work * <span class="lang">/ Días disponibles (mínimo 1)</span></label>
-          <div class="chips" id="daysWrap">
-            <label class="chip"><input type="checkbox" name="daysAvailable" value="Monday"> Monday / Lunes</label>
-            <label class="chip"><input type="checkbox" name="daysAvailable" value="Tuesday"> Tuesday / Martes</label>
-            <label class="chip"><input type="checkbox" name="daysAvailable" value="Wednesday"> Wednesday / Miércoles</label>
-            <label class="chip"><input type="checkbox" name="daysAvailable" value="Thursday"> Thursday / Jueves</label>
-            <label class="chip"><input type="checkbox" name="daysAvailable" value="Friday"> Friday / Viernes</label>
-            <label class="chip"><input type="checkbox" name="daysAvailable" value="Saturday"> Saturday / Sábado</label>
-            <label class="chip"><input type="checkbox" name="daysAvailable" value="Sunday"> Sunday / Domingo</label>
-          </div>
-
-          <div class="note">
-            Tip: You must select at least one day or the application will not submit.<br>
-            <span class="lang">Consejo: Debes seleccionar mínimo un día o la solicitud no se enviará.</span>
-          </div>
-        </fieldset>
-
-        <!-- Driving (optional) -->
-        <fieldset>
-          <legend>Driving (if applicable) <span class="lang">/ Conducción (si aplica)</span></legend>
-
-          <div class="grid">
-            <div>
-              <label>Can you drive a standard (stick shift) car? <span class="lang">/ ¿Maneja estándar?</span></label>
-              <select name="stick">
-                <option value="">Select / Selecciona</option>
-                <option value="Yes">Yes / Sí</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-            <div>
-              <label>Do you have a valid U.S. Driver’s License? <span class="lang">/ ¿Tiene licencia válida en EE.UU.?</span></label>
-              <select name="license">
-                <option value="">Select / Selecciona</option>
-                <option value="Yes">Yes / Sí</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-          </div>
-        </fieldset>
-
-        <!-- Employment History -->
-        <fieldset>
-          <legend>Employment History (Most Recent) <span class="lang">/ Historial laboral (Más reciente)</span></legend>
-
-          <div class="grid">
-            <div>
-              <label>Company Name <span class="lang">/ Empresa</span></label>
-              <input name="company" placeholder="Optional / Opcional">
-            </div>
-            <div>
-              <label>Job Title <span class="lang">/ Cargo</span></label>
-              <input name="jobTitle" placeholder="Optional / Opcional">
-            </div>
-          </div>
-
-          <div class="grid">
-            <div>
-              <label>Company Phone <span class="lang">/ Tel. empresa</span></label>
-              <input name="companyPhone" placeholder="Optional / Opcional">
-            </div>
-            <div>
-              <label>May we contact for reference? <span class="lang">/ ¿Podemos contactar referencias?</span></label>
-              <select name="contactRef">
-                <option value="">Select / Selecciona</option>
-                <option value="Yes">Yes / Sí</option>
-                <option value="No">No</option>
-              </select>
-            </div>
-          </div>
-
-          <label>Additional Notes (optional) <span class="lang">/ Notas adicionales (opcional)</span></label>
-          <textarea name="notes" placeholder="Write here / Escribe aquí"></textarea>
-        </fieldset>
-
-        <!-- Terms & Signature -->
-        <fieldset>
-          <legend>Terms & Signature <span class="lang">/ Términos y Firma</span></legend>
-
-          <span class="mustread">MUST READ ALL TEXT BEFORE SIGNING • DEBES LEER TODO ANTES DE FIRMAR</span>
-
-          <div class="termsBox">
-            <strong>Applicant Statement (EN)</strong><br><br>
-            I certify that all information I have provided in order to apply for and secure work with this employer is true, complete and correct.
-            I expressly authorize, without reservation, the employer, its representatives, employees or agents to contact and obtain information from all references
-            (personal and professional), employers, public agencies, licensing authorities and educational institutions and to otherwise verify the accuracy of all information
-            provided by me in this application, resume or job interview. I hereby waive any and all rights and claims I may have regarding the employer, its agents,
-            employees or representatives, for seeking, gathering and using truthful and non-defamatory information, in a lawful manner, in the employment process
-            and all other persons, corporations or organizations for furnishing such information about me.<br><br>
-
-            I understand that this employer does not unlawfully discriminate in employment and no question on this application is used for the purpose of limiting or eliminating any
-            application from consideration for employment on any basis prohibited by applicable local, state or federal law.<br><br>
-
-            I understand that this application remains current for only 30 days. At the conclusion of that time, if I have not heard from the employer and still wish to be considered
-            for employment, it will be necessary for me to reapply and fill out a new application.<br><br>
-
-            If I am hired, I understand that I am free to resign at any time, with or without cause and with or without prior notice, and the employer reserves the same right to terminate
-            my employment at any time, with or without cause and with or without prior notice, except as may be required by law.<br><br>
-
-            This application does not constitute an agreement or contract for employment for any specified period or definite duration. I understand that no supervisor or representative
-            of the employer is authorized to make any assurances to the contrary and that no implied oral or written agreements contrary to the foregoing express language are valid unless
-            they are in writing and signed by the employer's president.<br><br>
-
-            I also understand that if I am hired, I will be required to provide proof of identity and legal authorization to work in the United States and that federal immigration laws
-            require me to complete an I-9 Form in this regard.<br><br>
-
-            It is unlawful in Massachusetts to require or administer a lie detector test as a condition of employment or continued employment. An employer who violates this law shall be
-            subject to criminal penalties and civil liability.<br><br>
-
-            I understand that any information provided by me that is found to be false, incomplete or misrepresented in any respect, will be sufficient to eliminate me from further consideration,
-            or may result in my immediate discharge whenever it is discovered.<br><br>
-
-            <strong>DO NOT SIGN UNTIL YOU HAVE READ THE ABOVE APPLICANT STATEMENT.</strong><br><br>
-            I certify that I have read, fully understand and accept all terms of the foregoing Applicant Statement.
-
-            <hr>
-
-            <strong>Declaración del Aplicante (ES)</strong><br><br>
-            Certifico que toda la información que proporcioné para solicitar empleo es verdadera, completa y correcta.
-            Autorizo expresamente al empleador a verificar la información provista, incluyendo contactar referencias personales/profesionales, empleadores y entidades pertinentes,
-            y renuncio a reclamaciones relacionadas con la obtención y uso legal de información veraz y no difamatoria durante el proceso de empleo.<br><br>
-
-            Entiendo que esta empresa no discrimina ilegalmente y que ninguna pregunta se utiliza para limitar o eliminar candidatos por motivos prohibidos por la ley local, estatal o federal.<br><br>
-
-            Entiendo que esta solicitud solo es válida por 30 días y, si no recibo respuesta y deseo continuar en consideración, debo volver a aplicar.<br><br>
-
-            Si soy contratado(a), entiendo que puedo renunciar en cualquier momento, con o sin causa, y que el empleador puede terminar la relación laboral bajo las mismas condiciones,
-            excepto cuando la ley exija lo contrario.<br><br>
-
-            Entiendo que esta solicitud no constituye contrato por un período específico y que cualquier acuerdo contrario debe estar por escrito y firmado por el empleador autorizado.<br><br>
-
-            También entiendo que, si soy contratado(a), deberé presentar prueba de identidad y autorización legal para trabajar en EE.UU. y completar el Formulario I-9.<br><br>
-
-            En Massachusetts es ilegal exigir o administrar un detector de mentiras como condición de empleo. Cualquier violación puede resultar en sanciones penales y responsabilidad civil.<br><br>
-
-            Entiendo que cualquier información falsa, incompleta o tergiversada puede eliminarme de consideración o resultar en terminación inmediata cuando se descubra.<br><br>
-
-            <strong>NO FIRME HASTA HABER LEÍDO TODO EL TEXTO ANTERIOR.</strong><br><br>
-            Certifico que he leído, entiendo y acepto todos los términos de esta Declaración del Aplicante.
-          </div>
-
-          <div class="row2">
-            <div class="check">
-              <input type="checkbox" name="termsAccepted" id="termsAccepted" required>
-              <label for="termsAccepted" style="margin:0;">
-                I agree to the Terms & Applicant Statement above. <br>
-                <span class="lang">Acepto los Términos y la Declaración del Aplicante.</span>
-              </label>
-            </div>
-          </div>
-
-          <label>Signature * <span class="lang">/ Firma</span></label>
-
-          <div class="sigWrap">
-            <div class="sigTop">
-              <div>Tip: Sign with finger or mouse • <span class="lang">Firma con el dedo o el mouse</span></div>
-              <div id="sigStatus" style="font-weight:700;color:var(--muted);">Not signed / No firmado</div>
-            </div>
-            <canvas id="sigCanvas"></canvas>
-            <div class="sigActions">
-              <button type="button" class="btn btnDanger" id="clearSig">Clear Signature / Borrar</button>
-            </div>
-          </div>
-
-          <!-- required for backend -->
-          <input type="hidden" name="signature" id="signature">
-        </fieldset>
-
-        <div class="error" id="errorBox"></div>
-        <div class="ok" id="okBox"></div>
-
-        <button class="btn btnPrimary" type="submit">
-          Submit Application / Enviar Solicitud
-        </button>
-
-        <div class="footer">
-          This application is valid for 30 days. • <span class="lang">Esta solicitud es válida por 30 días.</span>
-        </div>
-
-      </form>
+  <div class="grid">
+    <div>
+      <label>Full Name *</label>
+      <input name="name" required />
+    </div>
+    <div>
+      <label>Email *</label>
+      <input type="email" name="email" required />
+    </div>
+    <div>
+      <label>Phone *</label>
+      <input name="phone" required />
+    </div>
+    <div>
+      <label>Position Applying For *</label>
+      <input name="position" required />
     </div>
   </div>
 
+  <label>Address / Dirección</label>
+  <input name="street" placeholder="Street / Calle" />
+
+  <div class="grid">
+    <input name="city" placeholder="City / Ciudad" />
+    <input name="state" placeholder="State / Estado" />
+  </div>
+
+  <!-- WORK -->
+  <h2>Work Eligibility & Availability / Elegibilidad y Disponibilidad</h2>
+
+  <div class="grid">
+    <div>
+      <label>Legally eligible to work in the U.S.? *</label>
+      <select required>
+        <option value="">Select</option>
+        <option>Yes / Sí</option>
+        <option>No</option>
+      </select>
+    </div>
+    <div>
+      <label>Available start date *</label>
+      <input type="date" required />
+    </div>
+  </div>
+
+  <label>Days available to work *</label>
+  <div class="days">
+    <label class="day"><input type="checkbox"> Monday</label>
+    <label class="day"><input type="checkbox"> Tuesday</label>
+    <label class="day"><input type="checkbox"> Wednesday</label>
+    <label class="day"><input type="checkbox"> Thursday</label>
+    <label class="day"><input type="checkbox"> Friday</label>
+    <label class="day"><input type="checkbox"> Saturday</label>
+    <label class="day"><input type="checkbox"> Sunday</label>
+  </div>
+
+  <!-- TERMS -->
+  <h2>Terms & Signature / Términos y Firma</h2>
+
+  <div class="must-read">
+    MUST READ ALL TEXT BEFORE SIGNING · DEBES LEER TODO ANTES DE FIRMAR
+  </div>
+
+  <div class="terms-box">
+    <p>
+      I certify that all information provided is true, complete, and correct.
+      I authorize the employer to verify all information and references.
+      I understand this application is valid for 30 days only.
+      I understand employment is at-will and not a contract.
+      I understand I must provide legal authorization to work in the U.S.
+    </p>
+    <p>
+      Certifico que toda la información proporcionada es verdadera y completa.
+      Autorizo al empleador a verificar referencias e información.
+      Esta solicitud es válida solo por 30 días.
+      El empleo es a voluntad y no constituye contrato.
+    </p>
+  </div>
+
+  <div class="agree-row">
+    <input type="checkbox" required />
+    <div>
+      I agree to the Terms & Applicant Statement above.<br>
+      Acepto los Términos y la Declaración del Aplicante.
+    </div>
+  </div>
+
+  <label>Signature / Firma *</label>
+  <div class="signature-box">
+    <canvas id="signature"></canvas>
+  </div>
+
+  <div class="sig-footer">
+    <span>Sign with finger or mouse</span>
+    <span id="sigStatus">Not signed</span>
+  </div>
+
+  <div class="actions">
+    <button type="button" class="clear" onclick="clearSig()">Clear Signature</button>
+    <button class="submit">Submit Application</button>
+  </div>
+
+</div>
+
 <script>
-  // --- Signature Canvas ---
-  const canvas = document.getElementById("sigCanvas");
-  const ctx = canvas.getContext("2d");
-  const sigHidden = document.getElementById("signature");
-  const sigStatus = document.getElementById("sigStatus");
+  const canvas = document.getElementById('signature');
+  const ctx = canvas.getContext('2d');
   let drawing = false;
-  let hasInk = false;
 
-  function resizeCanvas(){
-    const ratio = Math.max(window.devicePixelRatio || 1, 1);
-    const rect = canvas.getBoundingClientRect();
-    canvas.width = Math.floor(rect.width * ratio);
-    canvas.height = Math.floor(rect.height * ratio);
-    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-
-    ctx.lineWidth = 3;
-    ctx.lineCap = "round";
-    ctx.strokeStyle = "#111827";
+  function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
   }
-  window.addEventListener("resize", resizeCanvas);
-  resizeCanvas();
+  resize();
+  window.addEventListener('resize', resize);
 
-  function getPos(e){
-    const rect = canvas.getBoundingClientRect();
-    const touch = e.touches && e.touches[0];
-    const clientX = touch ? touch.clientX : e.clientX;
-    const clientY = touch ? touch.clientY : e.clientY;
-    return { x: clientX - rect.left, y: clientY - rect.top };
+  canvas.addEventListener('mousedown', e => { drawing = true; ctx.moveTo(e.offsetX, e.offsetY); });
+  canvas.addEventListener('mousemove', e => { if (drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); }});
+  canvas.addEventListener('mouseup', () => drawing = false);
+  canvas.addEventListener('mouseleave', () => drawing = false);
+
+  function clearSig() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
-
-  function startDraw(e){
-    drawing = true;
-    const p = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    e.preventDefault();
-  }
-  function moveDraw(e){
-    if(!drawing) return;
-    const p = getPos(e);
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
-    hasInk = true;
-    sigStatus.textContent = "Signed / Firmado";
-    sigStatus.style.color = "#16a34a";
-    e.preventDefault();
-  }
-  function endDraw(e){
-    drawing = false;
-    e.preventDefault();
-    // store signature to hidden input (base64 png)
-    if(hasInk){
-      sigHidden.value = canvas.toDataURL("image/png");
-    }
-  }
-
-  canvas.addEventListener("mousedown", startDraw);
-  canvas.addEventListener("mousemove", moveDraw);
-  window.addEventListener("mouseup", endDraw);
-
-  canvas.addEventListener("touchstart", startDraw, {passive:false});
-  canvas.addEventListener("touchmove", moveDraw, {passive:false});
-  canvas.addEventListener("touchend", endDraw, {passive:false});
-
-  document.getElementById("clearSig").addEventListener("click", ()=>{
-    const rect = canvas.getBoundingClientRect();
-    ctx.clearRect(0,0,rect.width,rect.height);
-    sigHidden.value = "";
-    hasInk = false;
-    sigStatus.textContent = "Not signed / No firmado";
-    sigStatus.style.color = "#6b7280";
-  });
-
-  // --- Submit ---
-  const form = document.getElementById("jobForm");
-  const errorBox = document.getElementById("errorBox");
-  const okBox = document.getElementById("okBox");
-
-  function showError(msg){
-    okBox.style.display = "none";
-    errorBox.textContent = msg;
-    errorBox.style.display = "block";
-  }
-  function showOk(msg){
-    errorBox.style.display = "none";
-    okBox.textContent = msg;
-    okBox.style.display = "block";
-  }
-
-  function getFormData(){
-    const fd = new FormData(form);
-    const data = Object.fromEntries(fd.entries());
-
-    // daysAvailable: collect all checked
-    const days = Array.from(document.querySelectorAll('input[name="daysAvailable"]:checked'))
-      .map(i => i.value);
-
-    data.daysAvailable = days; // backend supports array OR can join there
-    return data;
-  }
-
-  form.addEventListener("submit", async (e)=>{
-    e.preventDefault();
-
-    // validate days available
-    const daysChecked = document.querySelectorAll('input[name="daysAvailable"]:checked').length;
-    if(daysChecked < 1){
-      return showError("Please select at least one day available. / Selecciona al menos un día disponible.");
-    }
-
-    // validate signature
-    if(!sigHidden.value){
-      return showError("Signature is required. / La firma es obligatoria.");
-    }
-
-    const data = getFormData();
-
-    try{
-      const res = await fetch("/api/submit", {
-        method:"POST",
-        headers:{ "Content-Type":"application/json" },
-        body: JSON.stringify(data)
-      });
-
-      const text = await res.text();
-
-      if(!res.ok){
-        return showError("Server error: " + text);
-      }
-
-      showOk("✅ Application submitted successfully! / ¡Solicitud enviada con éxito!");
-      form.reset();
-
-      // clear signature after reset
-      document.getElementById("clearSig").click();
-
-    }catch(err){
-      showError("Network error: " + err.message);
-    }
-  });
 </script>
 
 </body>
