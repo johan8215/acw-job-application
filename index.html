@@ -1,328 +1,965 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Allston Car Wash – Job Application</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Allston Car Wash – Job Application | Solicitud de Empleo</title>
 
+  <!-- Fonts (system default) -->
   <style>
-    :root {
-      --primary: #2563eb;
-      --secondary: #0f172a;
-      --soft: #f1f5f9;
-      --border: #e5e7eb;
-      --danger: #dc2626;
-      --success: #16a34a;
+    :root{
+      --bg:#f4f6fb;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --brand:#0b3b8c;      /* ACW blue */
+      --brand2:#1456d8;
+      --accent:#22c55e;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --shadow: 0 10px 30px rgba(2,6,23,.08);
+      --radius:16px;
     }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: #f8fafc;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #0f172a;
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background: radial-gradient(1200px 500px at 50% -100px, rgba(20,86,216,.25), transparent),
+                  var(--bg);
     }
 
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      background: white;
-      padding: 32px;
-      border-radius: 14px;
-      box-shadow: 0 20px 40px rgba(0,0,0,.08);
+    .topbar{
+      background: linear-gradient(90deg, var(--brand), var(--brand2));
+      color:#fff;
+      padding:22px 16px;
+      position:sticky;
+      top:0;
+      z-index:5;
+      border-bottom:1px solid rgba(255,255,255,.15);
+    }
+    .topbar-inner{
+      max-width:1100px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .brand{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .brand h1{
+      margin:0;
+      font-size:22px;
+      letter-spacing:.2px;
+      line-height:1.1;
+    }
+    .brand p{
+      margin:0;
+      font-size:13px;
+      opacity:.92;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid rgba(255,255,255,.25);
+      border-radius:999px;
+      font-size:12px;
+      background: rgba(255,255,255,.10);
+      white-space:nowrap;
+    }
+    .pill b{ font-weight:700; }
+
+    .wrap{
+      max-width:1100px;
+      margin:18px auto 60px;
+      padding:0 14px;
     }
 
-    h1 {
-      margin-top: 0;
-      text-align: center;
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
 
-    .subtitle {
-      text-align: center;
-      color: #475569;
-      margin-bottom: 30px;
+    .card-header{
+      padding:18px 18px 14px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(20,86,216,.06), transparent);
+    }
+    .card-header h2{
+      margin:0;
+      font-size:18px;
+    }
+    .card-header .sub{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
     }
 
-    h2 {
-      margin-top: 40px;
-      border-bottom: 2px solid var(--soft);
-      padding-bottom: 8px;
+    form{
+      padding:18px;
     }
 
-    label {
-      display: block;
-      font-weight: 600;
-      margin-top: 14px;
+    .section{
+      margin:18px 0 6px;
+      padding-top:8px;
+      border-top:1px dashed var(--line);
+    }
+    .section:first-of-type{
+      border-top:none;
+      padding-top:0;
     }
 
-    .hint {
-      font-size: 13px;
-      color: #64748b;
+    .section h3{
+      margin:0 0 12px;
+      font-size:15px;
+    }
+    .section h3 small{
+      color:var(--muted);
+      font-weight:500;
     }
 
-    input, select, textarea {
-      width: 100%;
-      padding: 12px;
-      margin-top: 6px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      font-size: 15px;
-    }
-
-    textarea {
-      resize: vertical;
-    }
-
-    .grid {
-      display: grid;
+    .grid{
+      display:grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      gap:12px;
+    }
+    @media (max-width: 860px){
+      .grid{ grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 720px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+    label{
+      display:block;
+      font-size:13px;
+      font-weight:650;
+      margin:0 0 6px;
+    }
+    label .es{
+      font-weight:500;
+      color:var(--muted);
+      margin-left:6px;
+      font-size:12px;
+    }
+    input, select, textarea{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid var(--line);
+      border-radius:12px;
+      outline:none;
+      font-size:14px;
+      background:#fff;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(20,86,216,.55);
+      box-shadow: 0 0 0 4px rgba(20,86,216,.14);
+    }
+    textarea{ min-height:92px; resize:vertical; }
+
+    .row{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      flex-wrap:wrap;
     }
 
-    .days {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
-      margin-top: 10px;
+    /* Days */
+    .days{
+      display:grid;
+      grid-template-columns: repeat(4, minmax(160px, 1fr));
+      gap:10px;
+    }
+    @media (max-width: 860px){
+      .days{ grid-template-columns: repeat(2, minmax(140px, 1fr)); }
+    }
+    .day{
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:10px 10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+      background: linear-gradient(180deg, rgba(34,197,94,.06), transparent);
+    }
+    .day input{ width:auto; margin:0; }
+    .day span{
+      font-weight:700;
+      font-size:13px;
     }
 
-    .day {
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
+    /* Terms */
+    .terms-banner{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(245,158,11,.35);
+      background: rgba(245,158,11,.12);
+      color:#7c2d12;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.3px;
+      text-transform:uppercase;
+      margin-bottom:12px;
     }
 
-    .terms-box {
-      background: #f8fafc;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 16px;
-      max-height: 260px;
-      overflow-y: auto;
-      font-size: 14px;
-      line-height: 1.5;
+    .statement-box{
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:12px;
+      background:#fbfdff;
+    }
+    .statement-scroll{
+      max-height:210px;
+      overflow:auto;
+      padding:12px;
+      border-radius:12px;
+      border:1px dashed var(--line);
+      background:#fff;
+      color:#111827;
+      line-height:1.4;
+      font-size:13px;
+      white-space:pre-wrap;
     }
 
-    .must-read {
-      background: #fef3c7;
-      color: #92400e;
-      padding: 10px 14px;
-      border-radius: 10px;
-      font-size: 14px;
-      margin-bottom: 10px;
-      font-weight: 600;
-      text-align: center;
+    .agree{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-top:12px;
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background: rgba(20,86,216,.06);
+    }
+    .agree input{
+      width:auto;
+      margin-top:3px;
+    }
+    .agree .txt{
+      font-size:13px;
+      color:var(--text);
+      line-height:1.35;
+    }
+    .agree .txt b{ font-weight:800; }
+
+    /* Signature */
+    .sig-wrap{
+      border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .sig-top{
+      padding:10px 12px;
+      border-bottom:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(20,86,216,.06), transparent);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .sig-top b{ color:var(--text); }
+    canvas{
+      display:block;
+      width:100%;
+      height:180px;
+      background:#fff;
+      touch-action:none;
+    }
+    .sig-actions{
+      display:flex;
+      justify-content:flex-end;
+      gap:10px;
+      padding:10px 12px;
+      border-top:1px solid var(--line);
+      background:#fafafa;
     }
 
-    .agree-row {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      margin-top: 16px;
+    /* Buttons */
+    .btn{
+      border:none;
+      cursor:pointer;
+      padding:11px 14px;
+      border-radius:12px;
+      font-weight:800;
+      font-size:14px;
+    }
+    .btn-primary{
+      background: linear-gradient(90deg, var(--brand), var(--brand2));
+      color:#fff;
+      box-shadow: 0 10px 24px rgba(20,86,216,.25);
+    }
+    .btn-ghost{
+      background:#fff;
+      border:1px solid var(--line);
+      color:var(--text);
+    }
+    .btn-danger{
+      background: rgba(239,68,68,.12);
+      border:1px solid rgba(239,68,68,.35);
+      color:#991b1b;
     }
 
-    .agree-row input {
-      width: auto;
-      margin-top: 4px;
+    .footer-actions{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin-top:16px;
+      padding-top:14px;
+      border-top:1px dashed var(--line);
     }
 
-    .signature-box {
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      margin-top: 16px;
-      height: 160px;
-      position: relative;
-      background: white;
+    .status{
+      font-size:13px;
+      color:var(--muted);
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:999px;
+      background:#94a3b8;
+    }
+    .dot.ok{ background: var(--accent); }
+    .dot.bad{ background: var(--danger); }
+
+    .hint{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:8px;
+      line-height:1.35;
     }
 
-    canvas {
-      width: 100%;
-      height: 100%;
-    }
-
-    .sig-footer {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-      font-size: 13px;
-      color: #64748b;
-    }
-
-    .actions {
-      margin-top: 30px;
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-    }
-
-    button {
-      padding: 14px 28px;
-      border-radius: 12px;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .submit {
-      background: var(--primary);
-      color: white;
-    }
-
-    .clear {
-      background: #fee2e2;
-      color: var(--danger);
+    .mini{
+      font-size:12px;
+      color:var(--muted);
     }
   </style>
+
+  <!-- Signature Pad (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+
+  <!-- EmailJS (CDN) -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body>
-
-<div class="container">
-
-  <h1>Allston Car Wash – Job Application</h1>
-  <p class="subtitle">
-    Please complete all required fields and sign before submitting.<br>
-    Por favor complete todos los campos requeridos y firme antes de enviar.
-  </p>
-
-  <!-- APPLICANT INFO -->
-  <h2>Applicant Information / Información del Aplicante</h2>
-
-  <div class="grid">
-    <div>
-      <label>Full Name *</label>
-      <input name="name" required />
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <h1>Allston Car Wash – Job Application</h1>
+        <p>Solicitud de Empleo • Please complete all required fields. Terms acceptance and a signature are required.</p>
+      </div>
+      <div class="pill" title="Notifications">
+        <span>📲 WhatsApp</span>
+        <span>•</span>
+        <span>✉️ Email</span>
+        <span>•</span>
+        <b>ACW</b>
+      </div>
     </div>
-    <div>
-      <label>Email *</label>
-      <input type="email" name="email" required />
+  </header>
+
+  <main class="wrap">
+    <div class="card">
+      <div class="card-header">
+        <h2>Application Form / Formulario</h2>
+        <div class="sub">
+          English & Spanish included. <b>Fields marked *</b> are required. / Inglés y Español incluidos. <b>Campos con *</b> son requeridos.
+        </div>
+      </div>
+
+      <form id="appForm" novalidate>
+        <!-- Applicant Information -->
+        <div class="section">
+          <h3>Applicant Information <small>/ Información del Aplicante</small></h3>
+
+          <div class="grid">
+            <div>
+              <label>Full Name * <span class="es">/ Nombre completo</span></label>
+              <input id="name" name="name" autocomplete="name" required placeholder="First and last name / Nombre y apellido" />
+            </div>
+
+            <div>
+              <label>Email * <span class="es">/ Correo</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" required placeholder="example@email.com" />
+            </div>
+
+            <div>
+              <label>Phone * <span class="es">/ Teléfono</span></label>
+              <input id="phone" name="phone" required placeholder="(###) ###-####" inputmode="tel" />
+              <div class="hint">Tip: US format recommended. / Formato EE.UU. recomendado.</div>
+            </div>
+
+            <div>
+              <label>Position Applying For * <span class="es">/ Posición</span></label>
+              <select id="position" name="position" required>
+                <option value="">Select one / Selecciona</option>
+                <option>Car Wash Attendant / Lavado</option>
+                <option>Detailer / Detallado</option>
+                <option>Cashier / Cajero(a)</option>
+                <option>Supervisor / Supervisor(a)</option>
+                <option>Other / Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid" style="margin-top:12px;">
+            <div>
+              <label>Street Address <span class="es">/ Calle</span></label>
+              <input id="street" name="street" placeholder="Street address / Dirección" autocomplete="street-address" />
+            </div>
+            <div>
+              <label>City <span class="es">/ Ciudad</span></label>
+              <input id="city" name="city" placeholder="City / Ciudad" autocomplete="address-level2" />
+            </div>
+            <div>
+              <label>State <span class="es">/ Estado</span></label>
+              <input id="state" name="state" placeholder="MA" autocomplete="address-level1" />
+            </div>
+            <div>
+              <label>Zip Code <span class="es">/ Código Postal</span></label>
+              <input id="zip" name="zip" placeholder="#####"
+                     inputmode="numeric" autocomplete="postal-code" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Eligibility & Availability -->
+        <div class="section">
+          <h3>Work Eligibility & Availability <small>/ Elegibilidad y Disponibilidad</small></h3>
+
+          <div class="grid">
+            <div>
+              <label>Legally eligible to work in the U.S.? * <span class="es">/ ¿Puede trabajar legalmente en EE.UU.?</span></label>
+              <select id="eligible" name="eligible" required>
+                <option value="">Select / Selecciona</option>
+                <option value="Yes / Sí">Yes / Sí</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Available Start Date * <span class="es">/ Fecha disponible para iniciar</span></label>
+              <input id="startDate" name="startDate" type="date" required />
+            </div>
+
+            <div>
+              <label>Type of employment desired * <span class="es">/ Tipo de empleo</span></label>
+              <select id="employmentType" name="employmentType" required>
+                <option value="">Select / Selecciona</option>
+                <option>Full-time / Tiempo completo</option>
+                <option>Part-time / Medio tiempo</option>
+                <option>Temporary / Temporal</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Hours/week you are willing to work * <span class="es">/ Horas por semana</span></label>
+              <input id="hoursPerWeek" name="hoursPerWeek" required placeholder="e.g., 40" inputmode="numeric" />
+            </div>
+
+            <div>
+              <label>Will you work overtime if required? * <span class="es">/ ¿Haría horas extra si se requiere?</span></label>
+              <select id="overtime" name="overtime" required>
+                <option value="">Select / Selecciona</option>
+                <option>Yes / Sí</option>
+                <option>No</option>
+              </select>
+            </div>
+
+            <div>
+              <label>If under 18, can you provide a work permit? <span class="es">/ Si es menor de 18, ¿puede proveer permiso?</span></label>
+              <select id="workPermit" name="workPermit">
+                <option value="">Select / Selecciona</option>
+                <option>Not applicable / No aplica</option>
+                <option>Yes / Sí</option>
+                <option>No</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <label>Days available to work * <span class="es">/ Días disponibles (mínimo 1)</span></label>
+            <div class="days" role="group" aria-label="Days available">
+              <label class="day"><input type="checkbox" name="days" value="Monday/Lunes"> <span>Monday / Lunes</span></label>
+              <label class="day"><input type="checkbox" name="days" value="Tuesday/Martes"> <span>Tuesday / Martes</span></label>
+              <label class="day"><input type="checkbox" name="days" value="Wednesday/Miércoles"> <span>Wednesday / Miércoles</span></label>
+              <label class="day"><input type="checkbox" name="days" value="Thursday/Jueves"> <span>Thursday / Jueves</span></label>
+              <label class="day"><input type="checkbox" name="days" value="Friday/Viernes"> <span>Friday / Viernes</span></label>
+              <label class="day"><input type="checkbox" name="days" value="Saturday/Sábado"> <span>Saturday / Sábado</span></label>
+              <label class="day"><input type="checkbox" name="days" value="Sunday/Domingo"> <span>Sunday / Domingo</span></label>
+            </div>
+            <div class="hint">Select at least one day. / Selecciona al menos un día.</div>
+          </div>
+        </div>
+
+        <!-- Driver / Work Experience -->
+        <div class="section">
+          <h3>Driver & Work Information <small>/ Información de Manejo y Trabajo</small></h3>
+
+          <div class="grid">
+            <div>
+              <label>Do you have a driver’s license? <span class="es">/ ¿Tiene licencia?</span></label>
+              <select id="license" name="license">
+                <option value="">Select / Selecciona</option>
+                <option>Yes / Sí</option>
+                <option>No</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Can you drive stick shift? <span class="es">/ ¿Maneja transmisión manual?</span></label>
+              <select id="stick" name="stick">
+                <option value="">Select / Selecciona</option>
+                <option>Yes / Sí</option>
+                <option>No</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Most recent employer <span class="es">/ Empleador más reciente</span></label>
+              <input id="company" name="company" placeholder="Company name / Empresa" />
+            </div>
+
+            <div>
+              <label>Job title <span class="es">/ Cargo</span></label>
+              <input id="jobTitle" name="jobTitle" placeholder="Job title / Cargo" />
+            </div>
+
+            <div>
+              <label>Company phone <span class="es">/ Teléfono de la empresa</span></label>
+              <input id="companyPhone" name="companyPhone" placeholder="(###) ###-####" inputmode="tel" />
+            </div>
+
+            <div>
+              <label>May we contact your references? <span class="es">/ ¿Podemos contactar referencias?</span></label>
+              <select id="contactRef" name="contactRef">
+                <option value="">Select / Selecciona</option>
+                <option>Yes / Sí</option>
+                <option>No</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <label>Additional notes <span class="es">/ Notas adicionales</span></label>
+            <textarea id="notes" name="notes" placeholder="Anything you want us to know… / Algo que debamos saber…"></textarea>
+          </div>
+        </div>
+
+        <!-- Terms & Signature -->
+        <div class="section">
+          <h3>Terms & Signature <small>/ Términos y Firma</small></h3>
+
+          <div class="terms-banner">MUST READ ALL TEXT BEFORE SIGNING • DEBES LEER TODO ANTES DE FIRMAR</div>
+
+          <div class="statement-box">
+            <div class="mini"><b>Applicant Statement (EN)</b> + <b>Declaración del Aplicante (ES)</b></div>
+            <div class="hint" style="margin:8px 0 10px;">
+              Scroll to read. / Desliza para leer.
+            </div>
+
+            <div id="statement" class="statement-scroll">
+I certify that all information I have provided in order to apply for and secure work with this employer is true, complete and correct.
+
+I expressly authorize, without reservation, the employer, its representatives, employees or agents to contact and obtain information from all references (personal and professional), employers, public agencies, licensing authorities and educational institutions and to otherwise verify the accuracy of all information provided by me in this application, resume or job interview. I hereby waive any and all rights and claims I may have regarding the employer, its agents, employees or representatives, for seeking, gathering and using truthful and non-defamatory information, in a lawful manner, in the employment process and all other persons, corporations or organizations for furnishing such information about me.
+
+I understand that this employer does not unlawfully discriminate in employment and no question on this application is used for the purpose of limiting or eliminating any applicant from consideration for employment on any basis prohibited by applicable local, state or federal law.
+
+I understand that this application remains current for only 30 days. At the conclusion of that time, if I have not heard from the employer and still wish to be considered for employment, it will be necessary for me to reapply and fill out a new application.
+
+If I am hired, I understand that I am free to resign at any time, with or without cause and with or without prior notice, and the employer reserves the same right to terminate my employment at any time, with or without cause and with or without prior notice, except as may be required by law.
+
+This application does not constitute an agreement or contract for employment for any specified period or definite duration. I understand that no supervisor or representative of the employer is authorized to make any assurances to the contrary and that no implied oral or written agreements contrary to the foregoing express language are valid unless they are in writing and signed by the employer's president.
+
+I also understand that if I am hired, I will be required to provide proof of identity and legal authorization to work in the United States and that federal immigration laws require me to complete an I-9 Form in this regard.
+
+It is unlawful in Massachusetts to require or administer a lie detector test as a condition of employment or continued employment. An employer who violates this law shall be subject to criminal penalties and civil liability.
+
+I understand that any information provided by me that is found to be false, incomplete or misrepresented in any respect, will be sufficient to (1) eliminate me from further consideration, or (2) may result in my immediate discharge whenever it is discovered.
+
+DO NOT SIGN UNTIL YOU HAVE READ THE ABOVE APPLICANT STATEMENT.
+
+— — — — — — — — — — — — — — — — — — — — — — — — — —
+
+ESPAÑOL (Resumen claro):
+Certifico que toda la información que proveo es verdadera, completa y correcta. Autorizo al empleador a verificar referencias e información proporcionada. Entiendo que no existe discriminación ilegal, que esta solicitud es válida por 30 días, y que el empleo (si se ofrece) puede terminarse por cualquiera de las partes conforme a la ley. Entiendo que si soy contratado(a) debo presentar prueba de identidad y autorización legal para trabajar en EE.UU. (Formulario I-9). Entiendo que información falsa o incompleta puede descalificarme o resultar en despido inmediato. NO FIRME hasta leer todo lo anterior.
+            </div>
+
+            <div class="agree">
+              <input id="termsAccepted" type="checkbox" required />
+              <div class="txt">
+                <b>I agree</b> to the Terms & Applicant Statement above. / <b>Acepto</b> los Términos y la Declaración del Aplicante de arriba.
+                <div class="mini" style="margin-top:6px;">
+                  By checking this box, you confirm you have read the text. / Al marcar esta casilla, confirmas que leíste el texto.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <label>Signature * <span class="es">/ Firma</span></label>
+
+            <div class="sig-wrap">
+              <div class="sig-top">
+                <div>Tip: Sign with finger or mouse. / Firma con el dedo o el mouse.</div>
+                <div><b id="sigStatus">Not signed / No firmado</b></div>
+              </div>
+
+              <canvas id="signatureCanvas"></canvas>
+
+              <div class="sig-actions">
+                <button class="btn btn-danger" type="button" id="clearSig">Clear Signature / Borrar</button>
+              </div>
+            </div>
+
+            <input type="hidden" id="signatureData" name="signatureData" />
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="footer-actions">
+          <div class="status">
+            <span id="dot" class="dot"></span>
+            <span id="statusText">Ready. / Listo.</span>
+          </div>
+
+          <div class="row">
+            <button class="btn btn-ghost" type="button" id="btnTestEmail">Test EmailJS / Probar EmailJS</button>
+            <button class="btn btn-primary" type="submit">Submit Application / Enviar Solicitud</button>
+          </div>
+        </div>
+
+        <div class="hint">
+          <b>Email note:</b> If you don't have a sending domain, use <b>EmailJS</b> (Gmail) for email delivery. WhatsApp is sent by your server endpoint (/api/submit) via TextMeBot.
+          <br />
+          <b>Nota email:</b> Si no tienes dominio, usa <b>EmailJS</b> (Gmail). WhatsApp se envía por tu endpoint (/api/submit) con TextMeBot.
+        </div>
+      </form>
     </div>
-    <div>
-      <label>Phone *</label>
-      <input name="phone" required />
-    </div>
-    <div>
-      <label>Position Applying For *</label>
-      <input name="position" required />
-    </div>
-  </div>
+  </main>
 
-  <label>Address / Dirección</label>
-  <input name="street" placeholder="Street / Calle" />
+  <script>
+    /**************************************************************
+     * CONFIG – Fill these with your EmailJS values
+     * ------------------------------------------------------------
+     * You MUST set:
+     *   EMAILJS_PUBLIC_KEY
+     *   EMAILJS_SERVICE_ID
+     *   EMAILJS_TEMPLATE_ID
+     *
+     * Tip: create a template with variables like:
+     *   {{subject}}, {{full_text}}, {{name}}, {{email}}, etc.
+     **************************************************************/
+    const EMAILJS_PUBLIC_KEY  = "PUT_YOUR_PUBLIC_KEY_HERE";
+    const EMAILJS_SERVICE_ID  = "PUT_YOUR_SERVICE_ID_HERE";
+    const EMAILJS_TEMPLATE_ID = "PUT_YOUR_TEMPLATE_ID_HERE";
 
-  <div class="grid">
-    <input name="city" placeholder="City / Ciudad" />
-    <input name="state" placeholder="State / Estado" />
-  </div>
+    // Your server endpoint for WhatsApp (TextMeBot) + optional server email
+    const SUBMIT_API_ENDPOINT = "/api/submit";
 
-  <!-- WORK -->
-  <h2>Work Eligibility & Availability / Elegibilidad y Disponibilidad</h2>
+    const form = document.getElementById("appForm");
+    const dot = document.getElementById("dot");
+    const statusText = document.getElementById("statusText");
+    const sigStatus = document.getElementById("sigStatus");
+    const signatureData = document.getElementById("signatureData");
 
-  <div class="grid">
-    <div>
-      <label>Legally eligible to work in the U.S.? *</label>
-      <select required>
-        <option value="">Select</option>
-        <option>Yes / Sí</option>
-        <option>No</option>
-      </select>
-    </div>
-    <div>
-      <label>Available start date *</label>
-      <input type="date" required />
-    </div>
-  </div>
+    function setStatus(type, msg){
+      dot.className = "dot" + (type === "ok" ? " ok" : type === "bad" ? " bad" : "");
+      statusText.textContent = msg;
+    }
 
-  <label>Days available to work *</label>
-  <div class="days">
-    <label class="day"><input type="checkbox"> Monday</label>
-    <label class="day"><input type="checkbox"> Tuesday</label>
-    <label class="day"><input type="checkbox"> Wednesday</label>
-    <label class="day"><input type="checkbox"> Thursday</label>
-    <label class="day"><input type="checkbox"> Friday</label>
-    <label class="day"><input type="checkbox"> Saturday</label>
-    <label class="day"><input type="checkbox"> Sunday</label>
-  </div>
+    function getDays(){
+      return Array.from(document.querySelectorAll('input[name="days"]:checked')).map(x => x.value);
+    }
 
-  <!-- TERMS -->
-  <h2>Terms & Signature / Términos y Firma</h2>
+    function normalizePhone(p){
+      return String(p || "").trim();
+    }
 
-  <div class="must-read">
-    MUST READ ALL TEXT BEFORE SIGNING · DEBES LEER TODO ANTES DE FIRMAR
-  </div>
+    function buildFullText(data){
+      const days = data.days.length ? data.days.join(", ") : "(none)";
+      const lines = [
+        "NEW JOB APPLICATION (Allston Car Wash)",
+        "=======================================",
+        `Submitted At: ${new Date().toLocaleString()}`,
+        "",
+        `Name / Nombre: ${data.name}`,
+        `Email / Correo: ${data.email}`,
+        `Phone / Teléfono: ${data.phone}`,
+        `Position / Posición: ${data.position}`,
+        "",
+        `Address / Dirección: ${data.street || ""} ${data.city || ""} ${data.state || ""} ${data.zip || ""}`.trim(),
+        "",
+        "Work Eligibility & Availability",
+        `Eligible to work in U.S.? / Elegible: ${data.eligible}`,
+        `Start date / Fecha inicio: ${data.startDate}`,
+        `Employment type / Tipo empleo: ${data.employmentType}`,
+        `Hours per week / Horas: ${data.hoursPerWeek}`,
+        `Overtime? / Horas extra: ${data.overtime}`,
+        `Work permit (under 18) / Permiso (<18): ${data.workPermit || ""}`,
+        `Days available / Días: ${days}`,
+        "",
+        "Driver & Work Info",
+        `Driver's license / Licencia: ${data.license || ""}`,
+        `Stick shift / Manual: ${data.stick || ""}`,
+        `Recent employer / Empresa: ${data.company || ""}`,
+        `Job title / Cargo: ${data.jobTitle || ""}`,
+        `Company phone / Tel. empresa: ${data.companyPhone || ""}`,
+        `Contact references? / Contactar ref.: ${data.contactRef || ""}`,
+        "",
+        `Notes / Notas: ${data.notes || ""}`,
+        "",
+        "Terms & Signature",
+        `Accepted terms? / Aceptó términos: ${data.termsAccepted ? "YES / SÍ" : "NO"}`,
+        `Signature provided? / Firma: ${data.signatureData ? "YES / SÍ" : "NO"}`,
+      ];
+      return lines.join("\n");
+    }
 
-  <div class="terms-box">
-    <p>
-      I certify that all information provided is true, complete, and correct.
-      I authorize the employer to verify all information and references.
-      I understand this application is valid for 30 days only.
-      I understand employment is at-will and not a contract.
-      I understand I must provide legal authorization to work in the U.S.
-    </p>
-    <p>
-      Certifico que toda la información proporcionada es verdadera y completa.
-      Autorizo al empleador a verificar referencias e información.
-      Esta solicitud es válida solo por 30 días.
-      El empleo es a voluntad y no constituye contrato.
-    </p>
-  </div>
+    // Signature Pad setup
+    const canvas = document.getElementById("signatureCanvas");
+    const signaturePad = new window.SignaturePad(canvas, {
+      minWidth: 1,
+      maxWidth: 2.4,
+    });
 
-  <div class="agree-row">
-    <input type="checkbox" required />
-    <div>
-      I agree to the Terms & Applicant Statement above.<br>
-      Acepto los Términos y la Declaración del Aplicante.
-    </div>
-  </div>
+    function resizeCanvas(){
+      // Keep crisp lines on retina displays
+      const ratio = Math.max(window.devicePixelRatio || 1, 1);
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = Math.round(rect.width * ratio);
+      canvas.height = Math.round(rect.height * ratio);
+      canvas.getContext("2d").scale(ratio, ratio);
+      signaturePad.clear();
+      signatureData.value = "";
+      sigStatus.textContent = "Not signed / No firmado";
+    }
 
-  <label>Signature / Firma *</label>
-  <div class="signature-box">
-    <canvas id="signature"></canvas>
-  </div>
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
 
-  <div class="sig-footer">
-    <span>Sign with finger or mouse</span>
-    <span id="sigStatus">Not signed</span>
-  </div>
+    signaturePad.addEventListener("endStroke", () => {
+      if (!signaturePad.isEmpty()){
+        signatureData.value = signaturePad.toDataURL("image/png");
+        sigStatus.textContent = "Signed / Firmado";
+      }
+    });
 
-  <div class="actions">
-    <button type="button" class="clear" onclick="clearSig()">Clear Signature</button>
-    <button class="submit">Submit Application</button>
-  </div>
+    document.getElementById("clearSig").addEventListener("click", () => {
+      signaturePad.clear();
+      signatureData.value = "";
+      sigStatus.textContent = "Not signed / No firmado";
+    });
 
-</div>
+    // EmailJS init (only if configured)
+    function emailjsReady(){
+      return EMAILJS_PUBLIC_KEY && EMAILJS_PUBLIC_KEY !== "PUT_YOUR_PUBLIC_KEY_HERE";
+    }
+    if (emailjsReady()){
+      emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    }
 
-<script>
-  const canvas = document.getElementById('signature');
-  const ctx = canvas.getContext('2d');
-  let drawing = false;
+    async function sendEmailJS(data){
+      if (!emailjsReady()){
+        return { ok:false, error:"EmailJS not configured" };
+      }
 
-  function resize() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  }
-  resize();
-  window.addEventListener('resize', resize);
+      const subject = `New Job Application: ${data.name} (${data.position})`;
+      const full_text = buildFullText(data);
 
-  canvas.addEventListener('mousedown', e => { drawing = true; ctx.moveTo(e.offsetX, e.offsetY); });
-  canvas.addEventListener('mousemove', e => { if (drawing) { ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); }});
-  canvas.addEventListener('mouseup', () => drawing = false);
-  canvas.addEventListener('mouseleave', () => drawing = false);
+      // The template should decide recipients inside EmailJS settings
+      // (so you can add Jose on Monday without changing code).
+      const params = {
+        subject,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        position: data.position,
+        submittedAt: new Date().toLocaleString(),
+        full_text
+      };
 
-  function clearSig() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
-</script>
+      const r = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, params);
+      return { ok:true, result:r };
+    }
 
+    // Test button for EmailJS
+    document.getElementById("btnTestEmail").addEventListener("click", async () => {
+      try{
+        setStatus("", "Sending test email... / Enviando email de prueba...");
+        const dummy = {
+          name:"Test Applicant",
+          email:"test@example.com",
+          phone:"(617) 000-0000",
+          position:"Test Position",
+          street:"123 Test St",
+          city:"Boston",
+          state:"MA",
+          zip:"02134",
+          eligible:"Yes / Sí",
+          startDate:"2025-01-01",
+          employmentType:"Full-time / Tiempo completo",
+          hoursPerWeek:"40",
+          overtime:"Yes / Sí",
+          workPermit:"Not applicable / No aplica",
+          days:["Monday/Lunes","Tuesday/Martes"],
+          license:"Yes / Sí",
+          stick:"No",
+          company:"Test Co",
+          jobTitle:"Worker",
+          companyPhone:"(617) 000-0000",
+          contactRef:"Yes / Sí",
+          notes:"This is only a test / Solo prueba",
+          termsAccepted:true,
+          signatureData:"(test signature)"
+        };
+
+        const er = await sendEmailJS(dummy);
+        if (er.ok){
+          setStatus("ok", "EmailJS test sent ✅ / Prueba enviada ✅");
+        } else {
+          setStatus("bad", "EmailJS not configured ❌ / No configurado ❌");
+          alert("EmailJS is not configured yet. Put your PUBLIC KEY, SERVICE ID, and TEMPLATE ID in the CONFIG section.");
+        }
+      }catch(e){
+        setStatus("bad", "Test failed ❌ / Falló ❌");
+        alert(String(e?.message || e));
+      }
+    });
+
+    // Submit handler
+    form.addEventListener("submit", async (ev) => {
+      ev.preventDefault();
+
+      // Basic validation
+      const days = getDays();
+      const termsAccepted = document.getElementById("termsAccepted").checked;
+
+      const data = {
+        name: document.getElementById("name").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        phone: normalizePhone(document.getElementById("phone").value),
+        position: document.getElementById("position").value,
+        street: document.getElementById("street").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        state: document.getElementById("state").value.trim(),
+        zip: document.getElementById("zip").value.trim(),
+        eligible: document.getElementById("eligible").value,
+        startDate: document.getElementById("startDate").value,
+        employmentType: document.getElementById("employmentType").value,
+        hoursPerWeek: document.getElementById("hoursPerWeek").value.trim(),
+        overtime: document.getElementById("overtime").value,
+        workPermit: document.getElementById("workPermit").value,
+        days,
+        license: document.getElementById("license").value,
+        stick: document.getElementById("stick").value,
+        company: document.getElementById("company").value.trim(),
+        jobTitle: document.getElementById("jobTitle").value.trim(),
+        companyPhone: document.getElementById("companyPhone").value.trim(),
+        contactRef: document.getElementById("contactRef").value,
+        notes: document.getElementById("notes").value.trim(),
+        termsAccepted,
+        signatureData: signatureData.value
+      };
+
+      // Required checks
+      if (!data.name || !data.email || !data.phone || !data.position){
+        setStatus("bad", "Missing required fields ❌ / Faltan campos ❌");
+        alert("Please fill all required fields (Name, Email, Phone, Position). / Completa los campos requeridos.");
+        return;
+      }
+      if (!data.eligible || !data.startDate || !data.employmentType || !data.hoursPerWeek || !data.overtime){
+        setStatus("bad", "Missing required eligibility fields ❌ / Faltan campos ❌");
+        alert("Please complete the eligibility section. / Completa la sección de elegibilidad.");
+        return;
+      }
+      if (!days.length){
+        setStatus("bad", "Select at least one day ❌ / Selecciona un día ❌");
+        alert("Select at least one available day. / Selecciona al menos un día disponible.");
+        return;
+      }
+      if (!termsAccepted){
+        setStatus("bad", "You must accept the terms ❌ / Debes aceptar ❌");
+        alert("You must accept the Terms & Applicant Statement. / Debes aceptar los términos.");
+        return;
+      }
+      if (!data.signatureData){
+        setStatus("bad", "Signature required ❌ / Firma requerida ❌");
+        alert("Please sign before submitting. / Firma antes de enviar.");
+        return;
+      }
+
+      // Submit
+      try{
+        setStatus("", "Submitting... / Enviando...");
+
+        // 1) WhatsApp + optional server email (your /api/submit)
+        const apiResp = await fetch(SUBMIT_API_ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...data,
+            // Extra info helpful server-side:
+            submittedAt: new Date().toISOString(),
+            fullText: buildFullText(data)
+          })
+        });
+
+        let apiJson = null;
+        try{ apiJson = await apiResp.json(); }catch(_){}
+
+        // 2) EmailJS (client-side email)
+        // If configured, send it. If not configured, do not block (WhatsApp already sent).
+        let emailOk = false;
+        if (emailjsReady()){
+          const er = await sendEmailJS(data);
+          emailOk = !!er.ok;
+        }
+
+        if (apiResp.ok && (apiJson?.ok !== false)){
+          setStatus("ok", emailOk
+            ? "Submitted ✅ WhatsApp + Email sent / Enviado ✅ WhatsApp + Email"
+            : "Submitted ✅ WhatsApp sent (EmailJS not configured) / Enviado ✅ WhatsApp (EmailJS no configurado)"
+          );
+
+          alert(
+            emailOk
+              ? "Application submitted! ✅\nWhatsApp and Email were sent.\n\n¡Solicitud enviada! ✅\nSe envió WhatsApp y Email."
+              : "Application submitted! ✅\nWhatsApp was sent.\nEmail not sent because EmailJS is not configured yet.\n\n¡Solicitud enviada! ✅\nSe envió WhatsApp.\nEl email no salió porque EmailJS no está configurado."
+          );
+
+          form.reset();
+          signaturePad.clear();
+          signatureData.value = "";
+          sigStatus.textContent = "Not signed / No firmado";
+        } else {
+          setStatus("bad", "Submit failed ❌ / Falló ❌");
+          alert("Server error in /api/submit. Check Vercel logs. / Error en /api/submit. Revisa logs en Vercel.");
+          console.log("API response:", apiResp.status, apiJson);
+        }
+      }catch(e){
+        setStatus("bad", "Network error ❌ / Error de red ❌");
+        alert(String(e?.message || e));
+      }
+    });
+  </script>
 </body>
 </html>
